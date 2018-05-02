@@ -129,13 +129,15 @@ toColorCode n =
   else if n == "c" || n == "c?" then "#E6482E"
   else if n == "d" || n == "d?" then "#A93B3B"
   else if n == "e" || n == "e?" then "#429EF4"
-  else "Black"
+  else if n == "___" || n == "e?" then "Black"
+  else if n == "..." || n == "e?" then "Gray"
+  else "DarkGray"
 
-vartile : String -> Picture -> Picture
-vartile n p = recolor (toColorCode n) p
+fishvartile : String -> Picture -> Picture
+fishvartile n p = recolor (toColorCode n) p
 
 boxvartile : String -> Picture -> Picture
-boxvartile = vartile
+boxvartile n p = recolor (toColorCode n) p
 
 boxlamtile : Picture -> Picture -> Picture
 boxlamtile = aboveRatio 1 4

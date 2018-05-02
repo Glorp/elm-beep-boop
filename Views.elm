@@ -53,6 +53,16 @@ rectH st =
   in
     Fishies.expToSvg (400, 400) l
 
+fishH : State -> Html.Html msg
+fishH st =
+  let
+    l =
+      case st of
+        Half bru -> LamBru.halfBruToLamb bru
+        Exec lam -> lam
+  in
+    Fishies.expToFish (400, 400) l
+
 onlyBeops : State -> Html.Html msg
 onlyBeops st = Html.div [] [beopsH st]
 
@@ -76,6 +86,16 @@ onlyRectangles st =
     Exec _ -> Html.div [] [rectH st]
     _ -> rectangles st
 
+fish : State -> Html.Html msg
+fish st =
+  Html.div [] [beopsH st, bruH st, execH st, fishH st]
+
+onlyFish : State -> Html.Html msg
+onlyFish st =
+  case st of
+    Exec _ -> Html.div [] [fishH st]
+    _ -> fish st
+
 viewFor : String -> State -> Html.Html msg
 viewFor s =
   case s of
@@ -85,4 +105,6 @@ viewFor s =
     "bruLamb" -> bruLamb
     "rectangles" -> rectangles
     "onlyRectangles" -> onlyRectangles
+    "fish" -> fish
+    "onlyFish" -> onlyFish
     _ -> rectangles
