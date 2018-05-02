@@ -37,6 +37,22 @@ lambH st =
     Exec lam ->
       codeP [Lamb.String.unparse lam]
 
+execH : State -> Html.Html msg
+execH st =
+  case st of
+    Exec lam -> codeP (Lamb.String.unparseExec (Eval.stepExec lam))
+    _ -> lambH st
+
+rectH : State -> Html.Html msg
+rectH st =
+  let
+    l =
+      case st of
+        Half bru -> LamBru.halfBruToLamb bru
+        Exec lam -> lam
+  in
+    Fishies.expToSvg (400, 400) l
+
 onlyBeops : State -> Html.Html msg
 onlyBeops st = Html.div [] [beopsH st]
 
@@ -46,28 +62,19 @@ bruNoEval st = Html.div [] [beopsH st, bruH st]
 bruLambNoEval : State -> Html.Html msg
 bruLambNoEval st = Html.div [] [beopsH st, bruH st, lambH st]
 
-execH : Lamb.Exp -> Html.Html msg
-execH x = codeP (Lamb.String.unparseExec (Eval.stepExec x))
-
 bruLamb : State -> Html.Html msg
-bruLamb st =
-  case st of
-    Half _ -> bruLambNoEval st
-    Exec lam ->
-      Html.div [] [beopsH st, bruH st, execH lam]
+bruLamb st = Html.div [] [beopsH st, bruH st, execH st]
+
 
 rectangles : State -> Html.Html msg
 rectangles st =
-  case st of
-    Half _ -> bruLambNoEval st
-    Exec lam ->
-      Html.div []
-        [beopsH st
-        , bruH st
-        , execH lam
-        , Fishies.expToSvg (400, 400) lam
-        ]
+  Html.div [] [beopsH st, bruH st, execH st, rectH st]
 
+onlyRectangles : State -> Html.Html msg
+onlyRectangles st =
+  case st of
+    Exec _ -> Html.div [] [rectH st]
+    _ -> rectangles st
 
 viewFor : String -> State -> Html.Html msg
 viewFor s =
@@ -77,4 +84,5 @@ viewFor s =
     "bruLambNoEval" -> bruLambNoEval
     "bruLamb" -> bruLamb
     "rectangles" -> rectangles
+    "onlyRectangles" -> onlyRectangles
     _ -> rectangles
