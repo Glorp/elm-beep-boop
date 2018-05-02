@@ -136,7 +136,7 @@ boxvartile : String -> Picture -> Picture
 boxvartile = vartile
 
 boxlamtile : Picture -> Picture -> Picture
-boxlamtile = above
+boxlamtile = aboveRatio 1 4
 
 boxapptile : Picture -> Picture -> Picture
 boxapptile = beside
