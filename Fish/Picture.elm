@@ -120,13 +120,15 @@ recolor n p =
 
 toColorCode : String -> String
 toColorCode n =
-  if n == "x" then "#4FA4A5"
-  else if n == "y" then "#D47564"
-  else if n == "f" then "#5C6182"
-  else if n == "a" then "#F4B41B"
-  else if n == "b" then "#F47E1B"
-  else if n == "c" then "#E6482E"
-  else if n == "d" then "#A93B3B"
+  if n == "x" || n == "x?" then "#4FA4A5"
+  else if n == "y" || n == "y?" then "#D47564"
+  else if n == "z" || n == "z?" then "#41F4C4"
+  else if n == "f" || n == "f?" then "#5C6182"
+  else if n == "a" || n == "a?" then "#F4B41B"
+  else if n == "b" || n == "b?" then "#F47E1B"
+  else if n == "c" || n == "c?" then "#E6482E"
+  else if n == "d" || n == "d?" then "#A93B3B"
+  else if n == "e" || n == "e?" then "#429EF4"
   else "Black"
 
 vartile : String -> Picture -> Picture
